@@ -2,14 +2,9 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.concurrent.*;
 
-public class Runway {
+public class Gate {
 
-
-    public Runway ()
-    {
-
-    }
-    static BlockingQueue runwayQueue = new BlockingQueue() {
+    static BlockingQueue gateQueue = new BlockingQueue() {
         @Override
         public boolean add(Object o) {
             return false;
@@ -135,8 +130,7 @@ public class Runway {
 
         }
     };
-    synchronized void accessRunway() throws InterruptedException
-    {
-        Thread.sleep(5000);
+    synchronized void accessGate() throws InterruptedException {
+        Thread.sleep(10000);
     }
 }
