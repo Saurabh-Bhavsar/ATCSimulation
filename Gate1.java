@@ -3,37 +3,37 @@ import java.util.Iterator;
 import java.util.concurrent.*;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class Gate {
+public class Gate1 {
 
-	public static final ReentrantLock lockG = new ReentrantLock();
-	static BlockingQueue<Gate> gateQueue = new BlockingQueue<Gate>() {
+	public static final ReentrantLock lockG1 = new ReentrantLock();
+	static BlockingQueue<Gate1> Gate1Queue = new BlockingQueue<Gate1>() {
 		@Override
-		public boolean add(Gate o) {
+		public boolean add(Gate1 o) {
 			return false;
 		}
 
 		@Override
-		public boolean offer(Gate o) {
+		public boolean offer(Gate1 o) {
 			return false;
 		}
 
 		@Override
-		public void put(Gate o) throws InterruptedException {
+		public void put(Gate1 o) throws InterruptedException {
 
 		}
 
 		@Override
-		public boolean offer(Gate o, long timeout, TimeUnit unit) throws InterruptedException {
+		public boolean offer(Gate1 o, long timeout, TimeUnit unit) throws InterruptedException {
 			return false;
 		}
 
 		@Override
-		public Gate take() throws InterruptedException {
+		public Gate1 take() throws InterruptedException {
 			return null;
 		}
 
 		@Override
-		public Gate poll(long timeout, TimeUnit unit) throws InterruptedException {
+		public Gate1 poll(long timeout, TimeUnit unit) throws InterruptedException {
 			return null;
 		}
 
@@ -63,22 +63,22 @@ public class Gate {
 		}
 
 		@Override
-		public Gate remove() {
+		public Gate1 remove() {
 			return null;
 		}
 
 		@Override
-		public Gate poll() {
+		public Gate1 poll() {
 			return null;
 		}
 
 		@Override
-		public Gate element() {
+		public Gate1 element() {
 			return null;
 		}
 
 		@Override
-		public Gate peek() {
+		public Gate1 peek() {
 			return null;
 		}
 
@@ -133,14 +133,14 @@ public class Gate {
 		}
 	};
 
-	public void accessGate(int time) throws InterruptedException {
-		lockG.lock();
-		// System.out.println("In GATE RESOURCE 1");
+	public void accessGate1(int time) throws InterruptedException {
+		lockG1.lock();
+		// System.out.println("In GATE RESOURCE 2");
 		try {
 			Thread.sleep(time * 1000);
 		} finally {
-			System.out.println(Thread.currentThread().getName() + "  was in  ---  Gate Resource 1");
-			lockG.unlock();
+			System.out.println(Thread.currentThread().getName() + "  was in  ---  Gate Resource 2");
+			lockG1.unlock();
 		}
 	}
 }

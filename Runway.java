@@ -9,6 +9,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class Runway {
 
+	public static final Gate g = new Gate();
+	public static final Gate1 g1 = new Gate1();
 	public static final ReentrantLock lock = new ReentrantLock();
 	static BlockingQueue<Runway> RunwayQueue = new BlockingQueue<Runway>() {
 		@Override
@@ -152,6 +154,7 @@ public class Runway {
 		System.out.println();
 		DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 		Date date = new Date();
+		//lock.
 		System.out.println(
 				"Started execution --> " + Thread.currentThread().getName() + "  Time -- " + dateFormat.format(date)); // 2016/11/16
 		/*
@@ -159,10 +162,78 @@ public class Runway {
 		 * System.out.println(Thread.currentThread().getName()); }
 		 */
 		try {
-			Thread.sleep(10000);
+			Thread.sleep(1000);
 		} finally {
-			lock.unlock();
-			isLocked = false;
+			if (!Gate.lockG.isLocked()) 
+			{
+				System.out.println("In if condition");
+				lock.unlock();
+				g.accessGate(4);
+			}
+			else if(!Gate1.lockG1.isLocked())
+			{
+				System.out.println("Else if");
+				lock.unlock();
+				g1.accessGate1(4);
+			}
+			else
+			{
+				System.out.println("Else");
+				int curr_count_G = Gate.lockG.getQueueLength();
+				int curr_count_G1 = Gate1.lockG1.getQueueLength();
+
+				
+				if (curr_count_G > curr_count_G1)
+				{
+					lock.unlock();
+					g1.accessGate1(4);
+				}
+				else if (curr_count_G == curr_count_G1)
+				{
+					lock.unlock();
+					g.accessGate(4);
+				}
+				else
+				{
+					lock.unlock();
+					g.accessGate(4);
+				}
+			}
+					
+				/*System.out.println("Hello");
+				if (!Gate1.lockG1.isLocked())
+					g1.accessGate1(4);
+				else {
+					int curr_count_G = Gate.lockG.getQueueLength();
+					int curr_count_G1 = Gate1.lockG1.getQueueLength();
+
+					if (curr_count_G > curr_count_G1)
+						g1.accessGate1(4);
+					else if (curr_count_G == curr_count_G1)
+						g.accessGate(4);
+					else
+						g.accessGate(4);
+
+				}
+			} else  {
+				System.out.println("WORLD");
+				if (!Gate.lockG.isLocked())
+					g.accessGate(4);
+				else {
+					int curr_count_G = Gate.lockG.getQueueLength();
+					int curr_count_G1 = Gate1.lockG1.getQueueLength();
+
+					if (curr_count_G > curr_count_G1)
+						g1.accessGate1(4);
+					else if (curr_count_G == curr_count_G1)
+						g.accessGate(4);
+					else
+						g.accessGate(4);
+
+				}
+			} */
+			//lock.unlock();
+			//isLocked = false;
 		}
 		date = new Date();
 		System.out.println(
