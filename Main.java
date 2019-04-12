@@ -50,16 +50,22 @@ class Execute implements Runnable {
 	public Execute(String state) {
 
 	}
-	
-	public Execute()
-	{
-		
+
+	public Execute() {
+
 	}
 
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		rw.runwayAccess();
+		
+		try {
+			System.out.println("Current "+Thread.currentThread().getName());
+			rw.accessRunway();
+		} catch (Exception ex) {
+			System.out.println(ex.getStackTrace());
+		}
+
 	}
 }
 
