@@ -17,7 +17,8 @@ public class Main {
 		System.out.println("Enter number of threads to spawn");
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		int n = Integer.parseInt(reader.readLine());
-		Thread[] threads = new Thread[n];
+		// Thread[] threads = new Thread[n];
+		Execute[] tracker = new Execute[n];
 		int[] startTime = new int[n];
 		System.out.println("Enter the start time of threads in seconds");
 		int deduct = 0;
@@ -26,17 +27,17 @@ public class Main {
 
 		for (int t = 0; t < n; ++t) {
 			Thread.sleep((1000 * startTime[t]) - (deduct * 1000));
-			System.out.println("Creating thread " + t);
+			// System.out.println("Creating thread " + t);
 			deduct = startTime[t];
-			System.out.println(deduct);
-			threads[t] = new Thread(new Execute(), Integer.toString(t));
+			// System.out.println(deduct);
+			tracker[t] = new Execute(t);
 			// new Thread
-			threads[t].start();
+			tracker[t].start();
 		}
 	}
 }
 
-class Execute implements Runnable {
+class Execute extends Thread {
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -50,16 +51,22 @@ class Execute implements Runnable {
 	public Execute(String state) {
 
 	}
-	
-	public Execute()
-	{
-		
+
+	public Execute(int x) {
+		super(Integer.toString(x));
 	}
 
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		rw.runwayAccess();
+
+		try {
+			// System.out.println("Current "+Thread.currentThread().getName());
+			rw.accessRunway();
+		} catch (Exception ex) {
+			System.out.println(ex.getStackTrace());
+		}
+
 	}
 }
 
