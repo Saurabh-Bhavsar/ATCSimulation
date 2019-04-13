@@ -3,6 +3,7 @@ import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.Random;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
@@ -140,103 +141,60 @@ public class Runway {
 	};
 
 	public void accessRunway() throws InterruptedException {
-		boolean isLocked = true;
+		int AirplaneObjectId = Integer.parseInt(Thread.currentThread().getName());
+		Airplane workOn = Main.tracker[AirplaneObjectId];
+		if (workOn.getCurrentState() == 0) {
+			workOn.setCurrentState(1);
+			lock.lock();
 
-		/*
-		 * while(lock.isLocked()) {
-		 * System.out.println("Thread "+Thread.currentThread().getName()
-		 * +" is waiting for the lock"); }
-		 */
-		// System.out.println("WAITING --> "+lock.getQueueLength());
-		// lock.
-		// lock.tr
-		lock.lock();
-		System.out.println();
-		DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-		Date date = new Date();
-		//lock.
-		System.out.println(
-				"Started execution --> " + Thread.currentThread().getName() + "  Time -- " + dateFormat.format(date)); // 2016/11/16
-		/*
-		 * while (isLocked) // 12:08:43 {
-		 * System.out.println(Thread.currentThread().getName()); }
-		 */
-		try {
-			Thread.sleep(1000);
-		} finally {
-			if (!Gate.lockG.isLocked()) 
-			{
-				System.out.println("In if condition");
-				lock.unlock();
-				g.accessGate(4);
-			}
-			else if(!Gate1.lockG1.isLocked())
-			{
-				System.out.println("Else if");
-				lock.unlock();
-				g1.accessGate1(4);
-			}
-			else
-			{
-				System.out.println("Else");
-				int curr_count_G = Gate.lockG.getQueueLength();
-				int curr_count_G1 = Gate1.lockG1.getQueueLength();
-
-				
-				if (curr_count_G > curr_count_G1)
-				{
+		/*	DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+			Date date = new Date();
+			// lock.
+			System.out.println("Started execution --> " + Thread.currentThread().getName() + "  Time -- "
+					+ dateFormat.format(date)); // 2016/11/16 */
+			try {
+				Thread.sleep(3000);
+			} finally {
+				if (!Gate.lockG.isLocked()) {
+					// System.out.println("In if condition");
 					lock.unlock();
-					g1.accessGate1(4);
-				}
-				else if (curr_count_G == curr_count_G1)
-				{
+					g.accessGate(new Random().nextInt(5));
+				} else if (!Gate1.lockG1.isLocked()) {
+					// System.out.println("Else if");
 					lock.unlock();
-					g.accessGate(4);
-				}
-				else
-				{
-					lock.unlock();
-					g.accessGate(4);
-				}
-			}
-					
-				/*System.out.println("Hello");
-				if (!Gate1.lockG1.isLocked())
-					g1.accessGate1(4);
-				else {
+					g1.accessGate1(new Random().nextInt(5));
+				} else {
+					System.out.println("Else");
 					int curr_count_G = Gate.lockG.getQueueLength();
 					int curr_count_G1 = Gate1.lockG1.getQueueLength();
 
-					if (curr_count_G > curr_count_G1)
-						g1.accessGate1(4);
-					else if (curr_count_G == curr_count_G1)
-						g.accessGate(4);
-					else
-						g.accessGate(4);
-
+					if (curr_count_G > curr_count_G1) {
+						lock.unlock();
+						g1.accessGate1(new Random().nextInt(5));
+					} else {
+						lock.unlock();
+						g.accessGate(new Random().nextInt(5));
+					}
 				}
-			} else  {
-				System.out.println("WORLD");
-				if (!Gate.lockG.isLocked())
-					g.accessGate(4);
-				else {
-					int curr_count_G = Gate.lockG.getQueueLength();
-					int curr_count_G1 = Gate1.lockG1.getQueueLength();
 
-					if (curr_count_G > curr_count_G1)
-						g1.accessGate1(4);
-					else if (curr_count_G == curr_count_G1)
-						g.accessGate(4);
-					else
-						g.accessGate(4);
-
-				}
-			} */
-			//lock.unlock();
-			//isLocked = false;
+			}
+			System.out.println("Completed -- "+Thread.currentThread().getName());
+		} else {
+			/* date = new Date();
+			System.out.println("Completed execution - " + Thread.currentThread().getName() + "  Time --"
+					+ dateFormat.format(date)); */
+			lock.lock();
+			try
+			{
+				Thread.sleep(3000);
+			}
+			finally
+			{
+				lock.unlock();
+			}
+			
+			System.out.println("Completed -- "+Thread.currentThread().getName());
 		}
-		date = new Date();
-		System.out.println(
-				"Completed execution - " + Thread.currentThread().getName() + "  Time --" + dateFormat.format(date));
+
 	}
 }
