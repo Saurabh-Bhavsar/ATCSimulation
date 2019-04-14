@@ -27,6 +27,7 @@ public class Main {
 		System.out.println("Enter number of threads to spawn");
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		int n = Integer.parseInt(reader.readLine());
+		SwingUI s = new SwingUI(n);
 		tracker = new Airplane[n];
 		// Thread[] threads = new Thread[n];
 		Random r = new Random();
@@ -105,6 +106,7 @@ public class Main {
 			ArrayList<Airplane> temp = threadHashTable.get(curr);
 			for (int counter = 0; counter < temp.size(); counter++) {
 				Airplane operateOn = temp.get(counter);
+				operateOn.setBeginTime();
 				operateOn.start();
 			}
 		}

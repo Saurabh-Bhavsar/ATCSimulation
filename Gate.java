@@ -134,13 +134,21 @@ public class Gate {
 	};
 
 	public void accessGate(int time) throws InterruptedException {
+		int AirplaneObjectId = Integer.parseInt(Thread.currentThread().getName());
+		Airplane workOn = Main.tracker[AirplaneObjectId];
 		lockG.lock();
+		workOn.setCurrentState(3);
+		SwingUI.model.setValueAt(workOn.getCurrentStateName(workOn.getCurrentState()), AirplaneObjectId, 1);
 		// System.out.println("In GATE RESOURCE 1");
 		try {
 			Thread.sleep(time * 1000);
 		} finally {
-			System.out.println(Thread.currentThread().getName() + "  was in  ---  Gate Resource 1");
+			System.out.println(" IN GATE RESOURCE 1,   Thread -- " + workOn.getName() + ",  State -- "
+					+ workOn.getCurrentStateName(workOn.getCurrentState()));
 			lockG.unlock();
+			workOn.setCurrentState(4);
+			SwingUI.model.setValueAt(workOn.getCurrentStateName(workOn.getCurrentState()), AirplaneObjectId, 1);
+			Airplane.rw.accessRunway();
 		}
 	}
 }

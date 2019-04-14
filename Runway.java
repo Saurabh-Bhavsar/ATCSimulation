@@ -143,15 +143,18 @@ public class Runway {
 	public void accessRunway() throws InterruptedException {
 		int AirplaneObjectId = Integer.parseInt(Thread.currentThread().getName());
 		Airplane workOn = Main.tracker[AirplaneObjectId];
+		System.out.println(" Thread -- " + workOn.getName() +  ",  State -- "+workOn.getCurrentStateName(workOn.getCurrentState()));
 		if (workOn.getCurrentState() == 0) {
-			workOn.setCurrentState(1);
+			SwingUI.model.setValueAt(workOn.getCurrentStateName(workOn.getCurrentState()), AirplaneObjectId, 1);
 			lock.lock();
-
-		/*	DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-			Date date = new Date();
-			// lock.
-			System.out.println("Started execution --> " + Thread.currentThread().getName() + "  Time -- "
-					+ dateFormat.format(date)); // 2016/11/16 */
+			workOn.setCurrentState(1);
+			SwingUI.model.setValueAt(workOn.getCurrentStateName(workOn.getCurrentState()), AirplaneObjectId, 1);
+			/*
+			 * DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss"); Date date = new
+			 * Date(); // lock. System.out.println("Started execution --> " +
+			 * Thread.currentThread().getName() + "  Time -- " + dateFormat.format(date));
+			 * // 2016/11/16
+			 */
 			try {
 				Thread.sleep(3000);
 			} finally {
@@ -164,7 +167,9 @@ public class Runway {
 					lock.unlock();
 					g1.accessGate1(new Random().nextInt(5));
 				} else {
-					System.out.println("Else");
+					// System.out.println("Else");
+					workOn.setCurrentState(2);
+					SwingUI.model.setValueAt(workOn.getCurrentStateName(workOn.getCurrentState()), AirplaneObjectId, 1);
 					int curr_count_G = Gate.lockG.getQueueLength();
 					int curr_count_G1 = Gate1.lockG1.getQueueLength();
 
@@ -178,22 +183,28 @@ public class Runway {
 				}
 
 			}
-			System.out.println("Completed -- "+Thread.currentThread().getName());
+		//	System.out.println("Completed -- " + Thread.currentThread().getName());
 		} else {
-			/* date = new Date();
-			System.out.println("Completed execution - " + Thread.currentThread().getName() + "  Time --"
-					+ dateFormat.format(date)); */
+			/*
+			 * date = new Date(); System.out.println("Completed execution - " +
+			 * Thread.currentThread().getName() + "  Time --" + dateFormat.format(date));
+			 */
+			System.out.println(" Taking OFF Thread -- "+Thread.currentThread().getName() );
 			lock.lock();
-			try
-			{
+			workOn.setCurrentState(5);
+			SwingUI.model.setValueAt(workOn.getCurrentStateName(workOn.getCurrentState()), AirplaneObjectId, 1);
+			try {
 				Thread.sleep(3000);
-			}
-			finally
-			{
+			} finally {
 				lock.unlock();
+				workOn.setCurrentState(6);
 			}
+			long time_taken = (new Date().getTime() - workOn.getBeginTime());
+			System.out.println(
+					"Thread -- " + Thread.currentThread().getName() + "  Took off successfully,  Total Time Taken --- " + time_taken / 1000 +" seconds");
 			
-			System.out.println("Completed -- "+Thread.currentThread().getName());
+			String finish = "Took off successfully, Total time taken " + time_taken/1000 + " seconds";
+			SwingUI.model.setValueAt(finish, AirplaneObjectId, 1);
 		}
 
 	}

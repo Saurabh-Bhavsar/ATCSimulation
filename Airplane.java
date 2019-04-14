@@ -4,7 +4,7 @@ import java.util.*;
 public class Airplane extends Thread implements Comparable<Airplane> {
 
 	// int startTime;
-	static final Runway rw = new Runway();
+	public static final Runway rw = new Runway();
 	static final Gate g = new Gate();
 	static final Gate1 g1 = new Gate1();
 	private Date beginTime;
@@ -56,8 +56,8 @@ public class Airplane extends Thread implements Comparable<Airplane> {
 		beginTime = new Date();
 	}
 
-	public Date getBeginTime() {
-		return beginTime;
+	public long getBeginTime() {
+		return beginTime.getTime();
 	}
 
 	public int getPriorityLevel() {
@@ -67,14 +67,12 @@ public class Airplane extends Thread implements Comparable<Airplane> {
 	public int getCurrentState() {
 		return state;
 	}
-	
-	public void setCurrentState(int s)
-	{
-		state%=7;
+
+	public void setCurrentState(int s) {
+		state = s % 7;
 	}
-	
-	public String getCurrentStateName(int i)
-	{
+
+	public String getCurrentStateName(int i) {
 		return states[i];
 	}
 
