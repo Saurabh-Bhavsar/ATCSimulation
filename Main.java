@@ -1,6 +1,8 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -33,7 +35,7 @@ public class Main {
 		Random r = new Random();
 		for (int i = 0; i < n; i++) {
 			// Making hashmap
-			int start = r.nextInt(5);
+			int start = r.nextInt(7);
 			if (start == 0) {
 				tracker[i] = new Airplane(i);
 				if (!threadHashTable.containsKey(start)) {
@@ -65,17 +67,12 @@ public class Main {
 			ArrayList<Airplane> temp = threadHashTable.get(value.next());
 			Collections.sort(temp);
 		}
-
-		/*
-		 * value = timeTracker.iterator(); while (value.hasNext()) {
-		 * 
-		 * }
-		 */
-		value = timeTracker.iterator();
+		
+	/*	value = timeTracker.iterator();
 		while (value.hasNext()) {
 			int time = value.next();
 			ArrayList<Airplane> temp = threadHashTable.get(time);
-			System.out.println("Time = " + time + ",  No of Airplanes --> "+temp.size());
+			System.out.println("Time = " + time + ",  No of Airplanes --> " + temp.size());
 			for (int counter = 0; counter < temp.size(); counter++) {
 				Airplane traverse = temp.get(counter);
 				System.out.println("Thread Name --> " + traverse.getName() + ",   State -->  "
@@ -86,18 +83,7 @@ public class Main {
 			System.out.println(" *********** ");
 			System.out.println();
 		}
-
-		/*
-		 * if (timeTracker.contains(0)) { timeTracker.pollFirst(); ArrayList<Airplane>
-		 * temp = threadHashTable.get(0); for (int counter = 0; counter < temp.size();
-		 * counter++) { Airplane operateOn = temp.get(counter); int toCall =
-		 * operateOn.getCurrentState(); if (toCall == 0) operateOn.start(); else {
-		 * 
-		 * }
-		 * 
-		 * } }
-		 */
-
+*/
 		int deduct = 0;
 		while (!timeTracker.isEmpty()) {
 			int curr = timeTracker.pollFirst();
@@ -107,64 +93,12 @@ public class Main {
 			for (int counter = 0; counter < temp.size(); counter++) {
 				Airplane operateOn = temp.get(counter);
 				operateOn.setBeginTime();
+				DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+
+				SwingUI.updateStartTimeAndPriority(dateFormat.format(operateOn.getBeginTimeDateFormat()),
+						operateOn.getPriorityLevel(), Integer.parseInt(operateOn.getName()));
 				operateOn.start();
 			}
 		}
 	}
 }
-
-/*
- * import java.io.*; import java.io.IOException; import
- * java.util.concurrent.BlockingQueue;
- * 
- * /**
- * 
- * @author Shaifil
- *
- * 
- * public class Main {
- * 
- *//**
-	 * @param args
-	 * @throws InterruptedException
-	 *//*
-		 * public static void main(String[] args) throws IOException,
-		 * InterruptedException { // TODO Auto-generated method stub
-		 * System.out.println("Enter number of threads to spawn"); BufferedReader reader
-		 * = new BufferedReader(new InputStreamReader(System.in)); int n =
-		 * Integer.parseInt(reader.readLine()); // Thread[] threads = new Thread[n];
-		 * Execute[] tracker = new Execute[n]; int[] startTime = new int[n];
-		 * System.out.println("Enter the start time of threads in seconds"); int deduct
-		 * = 0; for (int i = 0; i < n; i++) startTime[i] =
-		 * Integer.parseInt(reader.readLine());
-		 * 
-		 * for (int t = 0; t < n; ++t) { Thread.sleep((1000 * startTime[t]) - (deduct *
-		 * 1000)); // System.out.println("Creating thread " + t); deduct = startTime[t];
-		 * // System.out.println(deduct); tracker[t] = new Execute(t); // new Thread
-		 * tracker[t].start(); } } }
-		 * 
-		 * class Execute extends Thread {
-		 * 
-		 * (non-Javadoc)
-		 * 
-		 * @see java.lang.Runnable#run()
-		 * 
-		 * 
-		 * // AtomicReference<Runway> rw = new AtomicReference(); static final Runway rw
-		 * = new Runway(); String[] states = { "About_to_land", "Runway", "Taxing1",
-		 * "Gate", "Taxing2", "Runway", "Took_off" };
-		 * 
-		 * public Execute(String state) {
-		 * 
-		 * }
-		 * 
-		 * public Execute(int x) { super(Integer.toString(x)); }
-		 * 
-		 * @Override public void run() { // TODO Auto-generated method stub
-		 * 
-		 * try { // System.out.println("Current "+Thread.currentThread().getName());
-		 * rw.accessRunway(); } catch (Exception ex) {
-		 * System.out.println(ex.getStackTrace()); }
-		 * 
-		 * } }
-		 */

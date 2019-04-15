@@ -3,17 +3,16 @@ import java.util.*;
 
 public class Airplane extends Thread implements Comparable<Airplane> {
 
-	// int startTime;
 	public static final Runway rw = new Runway();
 	static final Gate g = new Gate();
 	static final Gate1 g1 = new Gate1();
 	private Date beginTime;
 	private int state; // ["Airborne","Landing","Taxiing","Gate","TakingOff"]
 	private int priorityLevel;
-	String[] priorityLevels = { "International", "Domestic" };
-	boolean emergency = false;
-	String[] states = { "AirborneL", "Landing", "TaxiingToGate", "AtGate", "TaxiingToRunway", "TakingOff",
-			"AirborneT" };
+	// String[] priorityLevels = { "International", "Domestic" };
+	// boolean emergency = false;
+	String[] states = { "AirborneLanding", "Landing", "TaxiingToGate", "AtGate", "TaxiingToRunway", "TakingOff",
+			"AirborneTookOff" };
 
 	Random r = new Random();
 
@@ -22,7 +21,7 @@ public class Airplane extends Thread implements Comparable<Airplane> {
 		this.state = 0;
 		// this.startTime = start;
 		// priorityLevel = priorityLevels[(int) Math.round(Math.random() * 10) % 2];
-		priorityLevel = r.nextInt(10);
+		priorityLevel = r.nextInt(7);
 		/*
 		 * if (Math.round(Math.random() * 10) % 2 == 1) this.emergency = true;
 		 */
@@ -41,23 +40,22 @@ public class Airplane extends Thread implements Comparable<Airplane> {
 			break;
 
 		default:
-			this.state = 0;
+			this.state = 2;
 			break;
 		}
-		priorityLevel = r.nextInt(5);
-		// this.priorityLevel = priorityLevels[(int) Math.round(Math.random() * 10) %
-		// 2];
-		/*
-		 * if (Math.round(Math.random() * 10) % 2 == 1) this.emergency = true;
-		 */
+		priorityLevel = r.nextInt(7);
 	}
 
 	public void setBeginTime() {
 		beginTime = new Date();
 	}
 
-	public long getBeginTime() {
+	public long getBeginTimeLongFormat() {
 		return beginTime.getTime();
+	}
+
+	public Date getBeginTimeDateFormat() {
+		return beginTime;
 	}
 
 	public int getPriorityLevel() {
@@ -90,18 +88,18 @@ public class Airplane extends Thread implements Comparable<Airplane> {
 		} else {
 			try {
 				if (!Gate.lockG.isLocked())
-					g.accessGate(new Random().nextInt(5));
+					g.accessGate(new Random().nextInt(7));
 				else if (!Gate1.lockG1.isLocked())
-					g1.accessGate1(new Random().nextInt(5));
+					g1.accessGate1(new Random().nextInt(7));
 				else {
 					System.out.println("Else");
 					int curr_count_G = Gate.lockG.getQueueLength();
 					int curr_count_G1 = Gate1.lockG1.getQueueLength();
 
 					if (curr_count_G > curr_count_G1)
-						g1.accessGate1(new Random().nextInt(5));
+						g1.accessGate1(new Random().nextInt(7));
 					else
-						g.accessGate(new Random().nextInt(5));
+						g.accessGate(new Random().nextInt(7));
 				}
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
