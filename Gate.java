@@ -17,6 +17,7 @@ public class Gate {
 		SwingUI.updateGUIState(workOn.getCurrentStateName(workOn.getCurrentState()),
 				workOn.getCurrentStateName(workOn.getCurrentState() + 1), AirplaneObjectId);
 		// System.out.println("In GATE RESOURCE 1");
+		SwingUI.updateResourceUsedBy("G1", AirplaneObjectId);
 		try {
 			Thread.sleep(time * 1000);
 		} finally {
@@ -25,6 +26,7 @@ public class Gate {
 			 * ",  State -- " + workOn.getCurrentStateName(workOn.getCurrentState()));
 			 */
 			lockG.unlock();
+			SwingUI.resetResourceTable(1);
 			workOn.setCurrentState(4);
 			// SwingUI.model.setValueAt(workOn.getCurrentStateName(workOn.getCurrentState()),
 			// AirplaneObjectId, 1);

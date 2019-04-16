@@ -17,12 +17,14 @@ public class Gate1 {
 		SwingUI.updateGUIState(workOn.getCurrentStateName(workOn.getCurrentState()),
 				workOn.getCurrentStateName(workOn.getCurrentState() + 1), AirplaneObjectId);
 		// System.out.println("In GATE RESOURCE 2");
+		SwingUI.updateResourceUsedBy("G2", AirplaneObjectId);
 		try {
 			Thread.sleep(time * 1000);
 		} finally {
 			/*System.out.println(" IN GATE RESOURCE 1,   Thread -- " + workOn.getName() + ",  State -- "
 					+ workOn.getCurrentStateName(workOn.getCurrentState()));*/
 			lockG1.unlock();
+			SwingUI.resetResourceTable(2);
 			workOn.setCurrentState(4);
 			// SwingUI.model.setValueAt(workOn.getCurrentStateName(workOn.getCurrentState()),
 			// AirplaneObjectId, 1);

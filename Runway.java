@@ -32,6 +32,7 @@ public class Runway {
 			// AirplaneObjectId, 1);
 			SwingUI.updateGUIState(workOn.getCurrentStateName(workOn.getCurrentState()),
 					workOn.getCurrentStateName(workOn.getCurrentState() + 1), AirplaneObjectId);
+			SwingUI.updateResourceUsedBy("R", AirplaneObjectId);
 
 			try {
 				Thread.sleep(3000);
@@ -59,6 +60,7 @@ public class Runway {
 						g1.accessGate1(new Random().nextInt(7));
 					} else {
 						lock.unlock();
+						SwingUI.resetResourceTable(0);
 						g.accessGate(new Random().nextInt(7));
 					}
 				}
@@ -78,10 +80,12 @@ public class Runway {
 			// AirplaneObjectId, 1);
 			SwingUI.updateGUIState(workOn.getCurrentStateName(workOn.getCurrentState()),
 					workOn.getCurrentStateName(workOn.getCurrentState() + 1), AirplaneObjectId);
+			SwingUI.updateResourceUsedBy("R", AirplaneObjectId);
 			try {
 				Thread.sleep(3000);
 			} finally {
 				lock.unlock();
+				SwingUI.resetResourceTable(0);
 				workOn.setCurrentState(6);
 			}
 			long time_taken = (new Date().getTime() - workOn.getBeginTimeLongFormat());
@@ -90,6 +94,8 @@ public class Runway {
 					+ "  Took off successfully,  Total Time Taken --- " + time_taken / 1000 + " seconds");
 
 			String finish = "Took off successfully, Total time taken " + time_taken / 1000 + " seconds";
+			// if(completed == Main.tracker.length)
+				// SwingUI.resetResourceTable();
 			// SwingUI.model.setValueAt(finish, AirplaneObjectId, 1);
 			SwingUI.updateGUIState(finish, "--", AirplaneObjectId);
 			SwingUI.updateEndTime(new Date(), AirplaneObjectId);
