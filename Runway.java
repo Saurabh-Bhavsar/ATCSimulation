@@ -57,11 +57,11 @@ public class Runway {
 
 					if (curr_count_G > curr_count_G1) {
 						lock.unlock();
-						g1.accessGate1(new Random().nextInt(7));
+						g1.accessGate1(new Random().nextInt(6)+1);
 					} else {
 						lock.unlock();
 						SwingUI.resetResourceTable(0);
-						g.accessGate(new Random().nextInt(7));
+						g.accessGate(new Random().nextInt(6)+1);
 					}
 				}
 

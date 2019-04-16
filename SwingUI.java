@@ -26,7 +26,7 @@ public class SwingUI {
 	public static DefaultTableModel model1;
 
 	public SwingUI(int n) {
-		// Frame initiallization
+		// Frame initialization
 		f = new JFrame();
 
 		// Frame Title
@@ -54,7 +54,7 @@ public class SwingUI {
 
 		j = new JTable(model);
 		j1 = new JTable(model1);
-		j.setBounds(400, 200, 400, 700);
+		// j.setBounds(400, 200, 400, 700);
 		DefaultTableCellRenderer renderer = (DefaultTableCellRenderer) j.getDefaultRenderer(Object.class);
 		renderer.setHorizontalAlignment(SwingConstants.CENTER);
 

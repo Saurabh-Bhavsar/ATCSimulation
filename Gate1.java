@@ -19,6 +19,7 @@ public class Gate1 {
 		// System.out.println("In GATE RESOURCE 2");
 		SwingUI.updateResourceUsedBy("G2", AirplaneObjectId);
 		try {
+			System.out.println("G2 "+time);
 			Thread.sleep(time * 1000);
 		} finally {
 			/*System.out.println(" IN GATE RESOURCE 1,   Thread -- " + workOn.getName() + ",  State -- "
