@@ -11,7 +11,9 @@ Contribution:
 
 Saurabh Bhavsar - Concept, system design, Main class, Poster <br/>
 Shaifil Maknojia - Airplane Resource, Gate resources, Multi Threading, Priority sorting </br>
-Shashank Mayekar - User interface, Concurrent updates
+Shashank Mayekar - User interface, Concurrent updates </br>
+Git Hub repo: https://github.com/Saurabh-Bhavsar/ATCSimulation/ </br>
+Final commit is on "saifilmaknojia-patch-1" branch
 
 Description:
 
