@@ -3,14 +3,14 @@ Simulation of an Air Traffic Control (ATC) System using Concurrent Programming c
 
 Team:
 
-Saurabh Bhavsar (8553-7314) - Saurabh-bhavsar
-Shaifil Maknojia (7805-9466) - saifilmaknojia
+Saurabh Bhavsar (8553-7314) - Saurabh-bhavsar </br>
+Shaifil Maknojia (7805-9466) - saifilmaknojia </br>
 Shashank Mayekar (5005-9142) - shashanksm94
 
 Contribution:
 
-Saurabh Bhavsar - Concept, system design, Main class, Poster
-Shaifil Maknojia - Airplane Resource, Gate resources, Multi Threading, Priority sorting
+Saurabh Bhavsar - Concept, system design, Main class, Poster <br/>
+Shaifil Maknojia - Airplane Resource, Gate resources, Multi Threading, Priority sorting </br>
 Shashank Mayekar - User interface, Concurrent updates
 
 Description:
@@ -31,7 +31,7 @@ Extract the zip file and perform the following:
 2. If make utility is pre-installed, then run
     > make
     // This will compile all java files
-3.  > java Main
-4. You will be prompted to input the number of threads.
-5. Simulation begins with the UI shown
+    > java Main
+3. You will be prompted to input the number of threads.
+4. Simulation begins with the UI shown
 
