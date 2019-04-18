@@ -15,6 +15,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 public class SwingUI {
+	// Class to create the UI and update it whenever the methods are called
 	// frame
 	JFrame f;
 	// Table

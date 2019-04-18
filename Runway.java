@@ -10,10 +10,14 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class Runway {
 
-	public static final Gate g = new Gate();
-	public static final Gate1 g1 = new Gate1();
+	// Atomic object variables to access different resources
+	public static final Gate1 g = new Gate1();
+	public static final Gate2 g1 = new Gate2();
 	public static final ReentrantLock lock = new ReentrantLock();
+	static int completed = 0;
 
+	// this is the method where we make use of fine grained locking using Reentrant
+	// lock
 	public void accessRunway() throws InterruptedException {
 		int AirplaneObjectId = Integer.parseInt(Thread.currentThread().getName());
 		Airplane workOn = Main.tracker[AirplaneObjectId];
@@ -21,6 +25,7 @@ public class Runway {
 		 * System.out.println(" Thread -- " + workOn.getName() + ",  State -- " +
 		 * workOn.getCurrentStateName(workOn.getCurrentState()));
 		 */
+		// if condition is when the Plane is landing
 		if (workOn.getCurrentState() == 0) {
 			SwingUI.updateGUIState(workOn.getCurrentStateName(workOn.getCurrentState()),
 					workOn.getCurrentStateName(workOn.getCurrentState() + 1), AirplaneObjectId);
@@ -35,13 +40,18 @@ public class Runway {
 			SwingUI.updateResourceUsedBy("R", AirplaneObjectId);
 
 			try {
+				// once a thread acquires the lock, we make it sleep for 3 seconds, i.e time
+				// given for our Runway
 				Thread.sleep(3000);
 			} finally {
-				if (!Gate.lockG.isLocked()) {
+				// Once the thread wakes up, we make a call to acquire either of the Gate
+				// resource depending on the resource which is free
+				// or has less threads waiting for it
+				if (!Gate1.lockG.isLocked()) {
 					// System.out.println("In if condition");
 					lock.unlock();
 					g.accessGate(new Random().nextInt(7));
-				} else if (!Gate1.lockG1.isLocked()) {
+				} else if (!Gate2.lockG1.isLocked()) {
 					// System.out.println("Else if");
 					lock.unlock();
 					g1.accessGate1(new Random().nextInt(7));
@@ -52,22 +62,23 @@ public class Runway {
 					// AirplaneObjectId, 1);
 					SwingUI.updateGUIState(workOn.getCurrentStateName(workOn.getCurrentState()),
 							workOn.getCurrentStateName(workOn.getCurrentState() + 1), AirplaneObjectId);
-					int curr_count_G = Gate.lockG.getQueueLength();
-					int curr_count_G1 = Gate1.lockG1.getQueueLength();
+					int curr_count_G = Gate1.lockG.getQueueLength();
+					int curr_count_G1 = Gate2.lockG1.getQueueLength();
 
 					if (curr_count_G > curr_count_G1) {
 						lock.unlock();
-						g1.accessGate1(new Random().nextInt(6)+1);
+						g1.accessGate1(new Random().nextInt(6) + 1);
 					} else {
 						lock.unlock();
 						SwingUI.resetResourceTable(0);
-						g.accessGate(new Random().nextInt(6)+1);
+						g.accessGate(new Random().nextInt(6) + 1);
 					}
 				}
 
 			}
 			// System.out.println("Completed -- " + Thread.currentThread().getName());
-		} else {
+		} else { // else condition is for when the thread is returning from gate and ready for
+					// takeoff
 			/*
 			 * date = new Date(); System.out.println("Completed execution - " +
 			 * Thread.currentThread().getName() + "  Time --" + dateFormat.format(date));
@@ -89,16 +100,19 @@ public class Runway {
 				workOn.setCurrentState(6);
 			}
 			long time_taken = (new Date().getTime() - workOn.getBeginTimeLongFormat());
-
+			// Here the process is completed
 			System.out.println("Thread -- " + Thread.currentThread().getName()
 					+ "  Took off successfully,  Total Time Taken --- " + time_taken / 1000 + " seconds");
 
 			String finish = "Took off successfully, Total time taken " + time_taken / 1000 + " seconds";
-			// if(completed == Main.tracker.length)
-				// SwingUI.resetResourceTable();
+
+			// SwingUI.resetResourceTable();
 			// SwingUI.model.setValueAt(finish, AirplaneObjectId, 1);
 			SwingUI.updateGUIState(finish, "--", AirplaneObjectId);
 			SwingUI.updateEndTime(new Date(), AirplaneObjectId);
+			/*
+			 * completed++; if(completed == Main.tracker.length) System.exit(0);
+			 */
 		}
 
 	}
